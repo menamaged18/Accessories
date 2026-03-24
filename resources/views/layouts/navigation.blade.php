@@ -20,9 +20,11 @@
             </div>
 
             <div class="flex">
-                @auth
-                    <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/products/create">create</a>
-                @endauth
+                @if(auth()->check() && auth()->user()->isAdmin())
+                    <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/products/create">
+                        create
+                    </a>
+                @endif
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">

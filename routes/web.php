@@ -18,8 +18,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('/', [ProductController::class, 'index']);
-Route::get('/products/create', [ProductController::class, 'create']);
-Route::post('/products/store', [ProductController::class, 'store']);
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/products/create', [ProductController::class, 'create']);
+    Route::post('/products/store', [ProductController::class, 'store']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index']);

@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Mina Maged',
             'email' => 'admin@admin.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            'role' => 'admin',
         ]);
 
         $this->call(ProductSeeder::class);
