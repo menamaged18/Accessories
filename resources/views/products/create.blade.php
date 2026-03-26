@@ -8,7 +8,6 @@
                 </h2>
 
 
-
                 <form action="/products/store" method="POST" class="space-y-6" enctype="multipart/form-data">
                     @csrf
 

@@ -35,6 +35,33 @@ class CartController extends Controller
 
     public function index()
     {
+        $cart = Cart::where('user_id', Auth::id())->with('items.product')->first();
 
+        return view('cart.index', compact('cart'));
+    }
+
+    public function remove($itemId)
+    {
+        // Find the item and ensure it belongs to the logged-in user's cart
+        $item = CartItem::whereHas('cart', function($query) {
+            $query->where('user_id', Auth::id());
+        })->findOrFail($itemId);
+
+        if ($item->quantity > 1) {
+            $item->decrement('quantity');
+        } else {
+            $item->delete();
+        }
+
+        return redirect()->back()->with('success', 'Item updated');
+    }
+
+    public function destroy($itemId)
+    {
+        CartItem::whereHas('cart', function($query) {
+            $query->where('user_id', Auth::id());
+        })->findOrFail($itemId)->delete();
+
+        return redirect()->back()->with('success', 'Item removed');
     }
 }

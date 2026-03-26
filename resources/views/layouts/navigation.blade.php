@@ -20,11 +20,21 @@
             </div>
 
             <div class="flex">
+                {{--   if admin display create  --}}
                 @if(auth()->check() && auth()->user()->isAdmin())
                     <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/products/create">
                         create
                     </a>
                 @endif
+
+                {{--    if normal user display cart            --}}
+                @if(auth()->check() && auth()->user()->isCustomer())
+                    <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/cart">
+                        Cart
+                    </a>
+                @endif
+
+
                 <!-- Settings Dropdown -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
