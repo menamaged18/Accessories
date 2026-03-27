@@ -1,7 +1,6 @@
-@props(['product', 'type' => 'grid'])
+@props(['product', 'type' => 'grid', 'isInCart' => false])
 
-<div {{ $attributes->merge(['class' => 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 border border-gray-100 dark:border-gray-700 flex ' . ($type === 'list' ? 'flex-row h-32' : 'flex-col')]) }}>
-
+<div {{ $attributes->merge(['class' => 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-all duration-300 border ' . ($isInCart ? 'border-indigo-500 ring-2 ring-indigo-200' : 'border-gray-100 dark:border-gray-700') . ' flex ' . ($type === 'list' ? 'flex-row h-32' : 'flex-col')]) }}>
     {{-- Image --}}
     <div class="{{ $type === 'list' ? 'w-32' : 'relative aspect-square w-full' }} bg-gray-200 dark:bg-gray-700 overflow-hidden">
         <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">

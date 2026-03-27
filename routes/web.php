@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/cart/remove/{itemId}', [CartController::class, 'remove']);
     Route::delete('/cart/delete/{itemId}', [CartController::class, 'destroy']);
+    Route::delete('/cart/deleteByProductId/{productId}', [CartController::class, 'removeByProductId']);
 });
 
 require __DIR__.'/auth.php';

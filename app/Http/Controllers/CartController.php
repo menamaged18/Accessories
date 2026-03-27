@@ -56,6 +56,21 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Item updated');
     }
 
+    public function removeByProductId($productId)
+    {
+        // Get the user's cart
+        $cart = Cart::where('user_id', Auth::id())->first();
+
+        if ($cart) {
+            // Find and delete the cart item by product ID
+            CartItem::where('cart_id', $cart->id)
+                ->where('product_id', $productId)
+                ->delete();
+        }
+
+        return redirect()->back()->with('success', 'Product removed from cart');
+    }
+
     public function destroy($itemId)
     {
         CartItem::whereHas('cart', function($query) {

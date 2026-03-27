@@ -1,16 +1,27 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+//        $products = Product::all();
+        $products = Product::paginate(4);
+        $userCartProductIds = [];
+
+        if (Auth::check()) {
+            // Get the IDs of products already in the user's cart
+            $userCartProductIds = CartItem::whereHas('cart', function($query) {
+                $query->where('user_id', Auth::id());
+            })->pluck('product_id')->toArray();
+        }
+
+        return view('products.index', compact('products', 'userCartProductIds'));
     }
 
     public function create()

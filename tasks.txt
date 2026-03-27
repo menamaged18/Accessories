@@ -1,0 +1,4 @@
+1- check out (orders)
+2- make the user see his orders
+3- make the admin see all users orders
+4- add edit button for admin so he can edit products
