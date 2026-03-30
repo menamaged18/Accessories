@@ -33,16 +33,19 @@
                         @endif
                             @auth
                                 @if(auth()->user()->isAdmin())
-                                    <div class="flex gap-2 mt-2">
+                                    <div class="flex items-center gap-3 mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
                                         <a href="{{ route('admin.products.edit', $product) }}"
-                                           class="text-blue-400 hover:text-blue-300 text-sm">
+                                           class="flex-1 text-center py-2 px-3 text-sm font-medium text-white border border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white dark:text-blue-400 dark:border-blue-400 dark:hover:bg-blue-400 dark:hover:text-gray-900 transition-all duration-200">
                                             Edit
                                         </a>
+
                                         <form action="{{ route('admin.products.destroy', $product) }}" method="POST"
-                                              onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                              onsubmit="return confirm('Are you sure you want to delete this product?')"
+                                              class="flex-1">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-400 hover:text-red-300 text-sm">
+                                            <button type="submit"
+                                                    class="w-full py-2 px-3 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-600 hover:text-white dark:text-red-400 dark:border-red-400 dark:hover:bg-red-400 dark:hover:text-gray-900 transition-all duration-200">
                                                 Delete
                                             </button>
                                         </form>
