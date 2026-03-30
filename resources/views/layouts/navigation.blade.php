@@ -11,27 +11,34 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
-                </div>
+{{--                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">--}}
+{{--                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">--}}
+{{--                        {{ __('Dashboard') }}--}}
+{{--                    </x-nav-link>--}}
+{{--                </div>--}}
             </div>
 
-            <div class="flex">
+            <div class="flex gap-4">
                 {{--   if admin display create  --}}
                 @if(auth()->check() && auth()->user()->isAdmin())
-                    <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/products/create">
-                        create
-                    </a>
+                    <x-nav-link :href="route('admin.products.create')" :active="request()->routeIs('admin.products.create')">
+                        {{ __('create') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.index')">
+                        {{ __('Orders') }}
+                    </x-nav-link>
                 @endif
 
-                {{--    if normal user display cart            --}}
+                {{--    if normal user display --}}
                 @if(auth()->check() && auth()->user()->isCustomer())
-                    <a class="hidden text-white sm:flex sm:items-center sm:ms-6" href="/cart">
-                        Cart
-                    </a>
+                    <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
+                        {{ __('Cart') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('orders.userOrders')" :active="request()->routeIs('orders.userOrders')">
+                        {{ __('Orders') }}
+                    </x-nav-link>
                 @endif
 
 

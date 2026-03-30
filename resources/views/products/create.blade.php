@@ -8,7 +8,7 @@
                 </h2>
 
 
-                <form action="/products/store" method="POST" class="space-y-6" enctype="multipart/form-data">
+                <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                     @csrf
 
                     <div>
@@ -31,7 +31,7 @@
                         <x-text-input id="price" name="price" type="number" step="0.01" class="mt-1 block w-full" placeholder="0.00" required />
                     </div>
 
-                    <input type="file" name="image">
+                    <input type="file" name="image" class="text-white">
 
                     <div class="flex items-center justify-end mt-4">
                         <x-primary-button class="ms-3">

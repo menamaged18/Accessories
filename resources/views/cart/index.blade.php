@@ -66,9 +66,9 @@
                     <h2 class="text-3xl font-black text-white">
                         {{ number_format($cart->items->sum(fn($i) => $i->quantity * $i->product->price), 2) }} $
                     </h2>
-                    <button class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-indigo-500/20">
+                    <a href="{{ route('checkout.index') }}" class="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-indigo-500/20 text-center inline-block">
                         Checkout
-                    </button>
+                    </a>
                 </div>
             @endif
         </div>
