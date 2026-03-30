@@ -55,28 +55,22 @@
                                         <div class="text-sm text-gray-300">{{ $order->created_at->format('d M Y') }}</div>
                                         <div class="text-xs text-gray-500">{{ $order->created_at->format('H:i') }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        @php
-                                            $isCompleted = $order->status->value === 'completed';
-                                            $badgeClass = match($order->status->value) {
-                                                'completed' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-                                                'processing' => 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-                                                'shipped' => 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20',
-                                                'cancelled' => 'bg-red-500/10 text-red-400 border-red-500/20',
-                                                default => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-                                            };
-                                            $dotColor = match($order->status->value) {
-                                                'completed' => 'bg-emerald-400',
-                                                'processing' => 'bg-blue-400',
-                                                'shipped' => 'bg-indigo-400',
-                                                'cancelled' => 'bg-red-400',
-                                                default => 'bg-amber-400',
-                                            };
-                                        @endphp
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $badgeClass }}">
-                                                <span class="w-1.5 h-1.5 mr-1.5 rounded-full {{ $dotColor }}"></span>
-                                                {{ $order->status->label() }}
-                                            </span>
+                                    {{-- Order Status --}}
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-black">
+                                        <form action="{{ route('admin.orders.status', $order) }}" method="POST" class="inline-flex items-center gap-2">
+                                            @csrf
+                                            @method('PATCH')
+                                            <select name="status" class="bg-white dark:!bg-gray-700  text-gray-900 dark:!text-white rounded-md text-sm focus:ring-indigo-500 focus:border-indigo-500 block py-2 px-6">
+                                                @foreach(\App\Enums\OrderStatus::cases() as $status)
+                                                    <option value="{{ $status->value }}"
+                                                            class="bg-gray-800 text-white "
+                                                        {{ $order->status === $status ? 'selected' : '' }}>
+                                                        {{ $status->label() }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-1 rounded">Update</button>
+                                        </form>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
                                         <span class="text-sm font-bold text-white">${{ number_format($order->total_price, 2) }}</span>

@@ -59,6 +59,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Admin bypassing ownership to see order.
     Route::get('/orders/{order}', [OrderController::class, 'showAdminOrder'])->name('orders.show');
 
-    // TODO: Add admin actions like updating status
-    // Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+    // admin actions like updating status
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
 });
