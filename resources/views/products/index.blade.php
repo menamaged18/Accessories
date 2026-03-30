@@ -14,7 +14,7 @@
                                     <span class="text-center text-green-600 font-bold py-2 bg-green-50 rounded-lg border border-green-200">
                                         ✓ In Your Cart
                                     </span>
-                                    <form action="/cart/deleteByProductId/{{ $product->id }}" method="POST">
+                                    <form action="{{ route('cart.remove-by-product', $product->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="w-full text-xs font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 hover:underline transition-colors duration-200">
@@ -31,6 +31,24 @@
                                 </form>
                             @endif
                         @endif
+                            @auth
+                                @if(auth()->user()->isAdmin())
+                                    <div class="flex gap-2 mt-2">
+                                        <a href="{{ route('admin.products.edit', $product) }}"
+                                           class="text-blue-400 hover:text-blue-300 text-sm">
+                                            Edit
+                                        </a>
+                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST"
+                                              onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-400 hover:text-red-300 text-sm">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endauth
                     </x-product-card>
                 @endforeach
             </div>

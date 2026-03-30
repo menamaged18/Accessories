@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\CartItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index()
     {
-//        $products = Product::all();
-        $products = Product::paginate(4);
+        $products = Product::paginate(8);
         $userCartProductIds = [];
 
         if (Auth::check()) {
@@ -32,8 +33,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'price' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ]);
 
@@ -50,13 +52,46 @@ class ProductController extends Controller
             'image' => $imagePath
         ]);
 
-//        Product::create([
-//            'name' => $request->name,
-//            'description' => $request->description,
-//            'price' => $request->price,
-//        ]);
-
-        return redirect('/')->with('success', 'Product added');
+        return redirect()->route('home')->with('success', 'Product added successfully!');
     }
 
+    public function edit(Product $product)
+    {
+        return view('products.edit', compact('product'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+        ];
+
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
+            }
+            $data['image'] = $request->file('image')->store('products', 'public');
+        }
+
+        $product->update($data);
+
+        return redirect()->route('home')->with('success', 'Product updated successfully!');
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+
+        return redirect()->route('home')->with('success', 'Product deleted successfully!');
+    }
 }

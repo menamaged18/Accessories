@@ -48,7 +48,7 @@
                                 </div>
 
                                 {{-- Full Delete Button --}}
-                                <form action="/cart/delete/{{ $item->id }}" method="POST" class="w-full">
+                                <form action="{{ route('cart.remove-by-product', $item->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="w-full text-center py-1 text-xs text-red-400 hover:text-red-300 border border-red-500/30 hover:border-red-500 rounded transition-all">

@@ -13,7 +13,13 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity');
+
+            // --- SNAPSHOT COLUMNS ---
             $table->decimal('price', 8, 2);
+            $table->string('product_name');
+            $table->text('product_description')->nullable();
+            $table->string('product_image')->nullable();
+
             $table->timestamps();
         });
     }
